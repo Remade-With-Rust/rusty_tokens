@@ -8,13 +8,13 @@
 
 > **rusty_tokens** is an open-source design-token toolkit for any Rust UI --
 > **semantic CSS custom-property names + neutral default values + an optional
-> `:root` sheet emitter** -- pure Rust, zero dependencies. Application chrome
-> gets one shared theme contract instead of scattered hex/rem literals.
-> Sibling of [`thoth`](https://github.com/Remade-With-Rust/thoth) (glyphs) and
-> [`rusty_a11y`](https://github.com/Remade-With-Rust/rusty_a11y) (ARIA helpers).
+> `:root` sheet emitter** -- pure Rust. By default installs
+> [`rusty_alloc`](https://github.com/Remade-With-Rust/rusty_alloc) (opt out below).
+> Sibling of [`rusty_symbols`](https://crates.io/crates/rusty_symbols) and
+> [`rusty_a11y`](https://crates.io/crates/rusty_a11y).
 
-> **Status -- v0.1.0.** Pin
-> `rusty_tokens = "0.1"` from crates.io (or git tag `v0.1.0`).
+> **Status -- v0.2.0.** Pin
+> `rusty_tokens = "0.2"` from crates.io (or git tag `v0.2.0`).
 > Core is `no_std` / wasm-checked. Feature `css` needs `alloc`.
 
 ---
@@ -31,7 +31,8 @@
 | CSS contract | none | **`--rt-*` custom properties** | uniform |
 | Defaults | copy-paste | **neutral ASCII starter** | portable |
 | WebView inject | hand-written CSS | **`css::root_sheet`** | opt-in |
-| Dependencies | -- | **none** | maintain |
+| Allocator | system / C | **`rusty_alloc` by default** | opt-out |
+| Dependencies | -- | **none when opted out** | maintain |
 | License | mixed | **MIT** | -- |
 
 ---
@@ -39,19 +40,23 @@
 ## Install
 
 ```toml
-rusty_tokens = "0.1"
+rusty_tokens = "0.2"
+# bring your own allocator:
+# rusty_tokens = { version = "0.2", default-features = false }
 # CSS :root emitter:
-# rusty_tokens = { version = "0.1", features = ["css"] }
-# git:
-# rusty_tokens = { git = "https://github.com/Remade-With-Rust/rusty_tokens.git", tag = "v0.1.0" }
+# rusty_tokens = { version = "0.2", features = ["css"] }
+# hardened:
+# rusty_tokens = { version = "0.2", features = ["secure"] }
 ```
 
 | Feature | Default | Provides |
 |---------|---------|----------|
-| *(none)* | -- | `color` / `space` / `type_scale` / `radius` consts |
+| `rusty-alloc` | **yes** | [`rusty_alloc`](https://github.com/Remade-With-Rust/rusty_alloc) via [`rusty_alloc_default`](https://crates.io/crates/rusty_alloc_default) |
+| `secure` | no | enables `rusty-alloc` + hardening |
+| *(core)* | -- | `color` / `space` / `type_scale` / `radius` consts |
 | `css` | no | `css::root_sheet` |
 
-Always on: pure-ASCII source, `no_std` core, zero deps.
+Always on: pure-ASCII source, `no_std` core. Combining with sibling crate defaults is safe (shared allocator seam).
 
 MSRV: **1.73**.
 

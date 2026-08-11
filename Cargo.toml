@@ -1,6 +1,6 @@
 [package]
 name = "rusty_tokens"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Remade With Rust / Mata Network"]
 description = "Design tokens for Rust UIs — semantic CSS vars + neutral defaults (Remade With Rust)"
 repository = "https://github.com/Remade-With-Rust/rusty_tokens"
@@ -19,8 +19,12 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
-default = []
+default = ["rusty-alloc"]
+# Pure-Rust global allocator via shared seam (safe to combine with sibling crates).
+rusty-alloc = ["dep:rusty_alloc_default"]
+secure = ["rusty-alloc", "rusty_alloc_default?/secure"]
 # CSS :root sheet emitter.
 css = []
 
 [dependencies]
+rusty_alloc_default = { version = "0.1", optional = true }
