@@ -1,0 +1,26 @@
+[package]
+name = "rusty_tokens"
+version = "0.1.0"
+authors = ["Remade With Rust / Mata Network"]
+description = "Design tokens for Rust UIs — semantic CSS vars + neutral defaults (Remade With Rust)"
+repository = "https://github.com/Remade-With-Rust/rusty_tokens"
+documentation = "https://docs.rs/rusty_tokens"
+homepage = "https://github.com/Remade-With-Rust/rusty_tokens"
+license = "MIT"
+keywords = ["design-tokens", "css", "theme", "dioxus", "ui"]
+categories = ["gui", "no-std"]
+readme = "README.md"
+edition = "2021"
+rust-version = "1.73"
+exclude = [".github/*"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+default = []
+# CSS :root sheet emitter.
+css = []
+
+[dependencies]
